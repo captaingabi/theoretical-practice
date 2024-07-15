@@ -1,0 +1,35 @@
+BGP:
+ - path vector routing protocoll (multi metric)
+ - inter domain, Exterrior Gateway Protocol
+ - Autonomous sytems (AS), iBPG inside one AS, eBGP between AS-es
+ - routing decisions based on paths, network policies, or rule-sets
+ - uses TCP as its transport for control plane
+
+OSPF:
+ - link state routing protocoll
+ - intra-domain, Interior Gateway Protocol (IGP)
+ - link state advertisements and proagation on L3 (IP connectivity between routers)
+ - once all links are known map is generated of the full network and based on that routing table is populated
+ - Dijsktra algo
+ - hierarchy, areas
+
+RIP:
+ - distance vector routing protocoll
+ - intra-domain, Interior Gateway Protocol (IGP)
+ - similar to xSTP in Ethernet (but that uses Dijsktra algo, this one uses Bellman-Ford algo)
+ - Each node sends its routing table and hop count (and maybe other metrics) for each destination
+ - interface with the least distance towards the destination is entered into the routing table
+
+
+IS-IS:
+ - link state routing protocoll
+ - intra-domain, Interior Gateway Protocol (IGP)
+ - link state advertisements but flooded on L2
+ - once all links are known map is generated of the full network and based on that routing table is populated
+ - Dijsktra algo
+ - hierarchy, areas
+
+With distance-vector, routers shared the distance metric among each other and that adds up (e.g. number of hops)
+With path-vector, routers share the entire path for each destination => possible to:
+ - see loops (myself in the path)
+ - apply path policies (dont go through Iran even if thats the shortest...)

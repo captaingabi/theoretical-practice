@@ -1,0 +1,49 @@
+neighbourship:
+ - formed by static manual configuration pointing BGP routers to each other between AS-es
+ - TCP session on port 179
+ - advertises:
+   - Network Layer Reachability Information (NLRI) = prefixes + length
+   - path-attributes (PA) for path selection (multi metric choice) both inbound and outbound
+
+Autonomous System (AS):
+ - ASN (Autonomous System Number)
+ - Confederation = sub-AS, same concept as Areas in OSPf
+   -  only need full mesh inside sub-AS
+
+Route Reflector: same concept as Designagted Router in OSPF
+
+Open message:
+ - version
+ - local ASN
+ - hold time (default 180 sec)
+ - router id
+ - optional params
+
+keepalive message:
+ - 60 sec
+ - when holdtime reached, neighbourship tears down
+
+Update message:
+ - withdrawn routes
+ - NLRI
+ - path attributes
+
+Notification message:
+ - error info, code subcode
+
+path-selection (in order):
+ - do not consider path if no route to next hop
+ - highest weight
+ - heighest local preference (global within AS)
+ - prefer locally originated routes (BGP install itself rather than redistribution, have 0.0.0.0 as next-hop)
+ - shortest AS path length (number of AS-es)
+ - lowest origin code (IGP < EGP < incomplete)
+ - lowest MED multi exit discriminator (for same AS)
+    - note: below 2 config can be enabled/disabled independently making 4 possible choice
+    - cisco deterministic-med: groups AS-entries, gets the best entry for each As, and continues the comparison between those bets entries.
+    - cisco always-comapre: by default different AS entries not compared, this will compare them too.
+ - prefer eBGP path over iGBP path (we go out to other AS anyway, lets not move inside more, go out immediately)
+ - path with lowest IGP metric to next hop
+ - router-id (originator-id for reflected routes)
+ - shortest cluster-list (when route-reflectors present)
+ - lowest next-hop address (tie breaker)

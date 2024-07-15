@@ -1,0 +1,87 @@
+router-rtpes:
+ - internal router (inside area)
+ - backbone router (in area 0)
+ - ABR = Area Border Router (between areas)
+ - ASBR = Autonomous System Border Router (on Area edge where other Routing protocoll also runs)
+
+tables:
+ - Neighbour
+ - Topology = LSDB
+   - each antry is an LSA (Link State Advertisement)
+ - Routing
+
+control-packets:
+ - Hello
+ - DBD (LSA summary)
+ - LSR (Link State request)
+ - LSU (Link State update)
+ - LSA ack
+
+link-choice:
+ - longest prefix match
+ - AD (administrative distance)
+ - cost metric = sum of link costs
+   - link cost = reference bandwidtth (configurable) / interface bandwidth
+   - default reference-bandwidth = 100 Mbps => Fast Ethernet cost = 1
+
+
+hello-packet:
+ - router-id (not an ip address, but 23 bytes)
+ - hello interval
+ - dead interval
+ - neighbours
+ - area id
+ - auth data (pass, hash)
+ - network mask
+ - area type
+ - DR (Designated router)
+ - BDR (Vackup designated router)
+ - Priority (for DR and BDR)
+
+DBD:
+ - master-slave election, then master asks, slave replies
+
+adjacency:
+ - down (multicast hello)
+ - attempt (unicast hello for non-broadcast network types)
+ - init (got hello)
+ - 2-way (see neighbour from hello)
+ - exstart (DBD masgter election)
+ - exchange (DBD, LSA summary exchange)
+ - loading (LSR-LSU-LSAck)
+ - full
+
+LSA-types:
+ - type 1 = router LSA: intra area, sent by all
+ - type 2 = Network LSA: intra area, sent by DR
+ - type 3 = summary LSA: inter area, sent by ABR
+ - type 4 = ASBR Summary LSA: between areas, sent by ABR
+ - type 5 = external LSA: on area edge to external protocolls, sent by ASBR
+ - type 7 = external NSSA LSA: on area edge only NSSA areas, to external protocolls, converted to type 5 on ABR
+
+areas:
+ - area 0 alwyas invlolved = start topology
+ - normal                 (LSA 1 2 3 4 5)
+ - Stub                   (LSA 1 2 3 + default GW for external routes)
+ - Totally Stub           (LSA 1 2 + default GW for external routes and area0 routes)
+ - Not So Stub            (LSA 1 2 3 7 + amdmin choice of default GW for external routes)
+ - Totally Not So Stub    (LSA 1 2 7 + amdmin choice of default GW for external and area0 routes)
+
+network types:
+(P2MPs are hub & spoke)
+                              P2P       Broadcast   NBMA        P2MP      P2MP-NB
+max routes                    1         infinite    infinite    infinite  infinite
+Full mesh                     yes       yes         yes         no        no
+DR/BDR                        no        yes         yes         no        no
+Hello/Dead time               10/40     10/40       30/120      30/120    30/120
+Auto neighbour                yes       yes         no          yes       no
+Discovery and hello dst IP    224.0.0.5 224.0.0.5   neigh IP    224.0.0.5 neigh IP
+Neighbour comm dst IP         224.0.0.5 unicast     unicast     unicast   unicast
+LSA dst IP                    224.0.0.5 multicast   unicast     unicast   unicast
+                                        DR/BDR      DR/NDR
+next-hop IP                   peer      orig router orig router hub       hub
+
+auth:
+  - password
+  - key rotation
+  - key chains
