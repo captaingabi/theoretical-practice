@@ -22,7 +22,10 @@ Ingress: can manage external access to the services in a cluster, typically HTTP
 Note: all types of service do loadballancing between Pods
 
 Endpoint & EndpointSlices
-Servce => Endpoint(list of Pods from selector) => Pods
+Service => Endpoint(list of Pods from selector) => Pods
+When pods come and go, list of endpoints needs an update in all worker nodes.
+This results in lot of netowrk traffic and k8s control computing.
+Solution: slice endpoint list to smaller chunks.
 https://www.linkedin.com/pulse/kubernetes-concept-endpoints-vs-endpointslices-mbong-ekwoge/
 
 PV & PVC & Storage Class & Ephemeral Storage (from worker node)
