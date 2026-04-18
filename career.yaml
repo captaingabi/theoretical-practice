@@ -1,0 +1,117 @@
+Univercity:
+  - msc with excellent grade
+  - Network simulators in C++
+  - Part of HSN lab
+  - TDK, 3 conference paper in EThernet RSTP MSTP
+  - Patent registered in US EU Japan
+
+Ericsson Minilin:
+  - Embedded SW developer
+  - C and C++L with stl
+  - Uboot, assembly in MIPS, PowerPC, Arm
+  - real timer OS with 500kb image, and linuc kernel:
+    - preemptive processes and interrupts,
+    - processes, threads, mutex, semaphore, volatile
+  - notable achievemets:
+    - Rewrote 50000 lines of code to 5000 ine in RSTP integration, do exactly the same
+    - Solved bug happenig every 10 hours, hton buffer overflow, x=x
+      separate momory with logging all process owners
+
+Ericsson Security Manager:
+  - business logic:
+    - Django bases stateless API servers + Django pytest
+    - Scala based stateless ETL (extract transform load)
+    - Postgress SQL
+    - Splunk for big data + Behave
+  - pLatform:
+    - API gateway:
+      - nginx
+    - keycloak (user2sys):
+      - User login (authentication)
+      - Single Sign-On (SSO)
+      - User federation (LDAP)
+      - RBAC
+      - Oauth2
+      - Open ID connect
+    - Vault (sys2sys):
+      - Storing secrets securely (DB passwords, API tokens)
+      - Dynamic secrets (temporary DB credentials)
+      - Encryption as a service
+      - Key management (PKI, TLS certs)
+      - Secret rotation
+    - Message buses:
+      - RabbitMQ
+      - Kafka with zookeeper
+    - Task schedulers:
+      - CeleryBeats
+    - Monitoring:
+      - Prometheus with platform level and app level counters
+      - Grafana
+  - Frontend:
+    - React functional component with apollo hooks
+    - GraphQL datasources (separation of the "how" from the "what")
+    - Demo frontend
+  - Infra:
+    - kubernetes + Helm charts for different cluster envs
+  - notable achievemets:
+    - implemented terraform with bash scripts, Automatic provision, save money
+    - created k8S cluster from best effor azure VMs (that can be removed), save money
+    - found circu8lar dependencies in props in Reach components -> inifinite loop
+
+DT:
+  - business logic:
+    - open-api based API servers
+    - tosca modelling
+    - Camnnda workflows
+    - Python scriptplans
+    - PostgresSQL + Elastisearch as global view store (kind of cache, adds more filtering options with the inverted index)
+  - platform:
+    - API gateway:
+      - Tardis (nginx + kafka) + trafic(former nginx) + nginx(BP)
+    - tron instead of keycloak:
+    - Vault:
+    - Message buses:
+      - kafka + zookeeper
+    - Monitoring:
+      - Prometheus with platform level counters (no api level)
+      - Grafana
+      - Elastisearch
+  - Frontend:
+    - DDUI data driven UI, configured with yaml files
+  - Infra:
+    - kubernetes + Helm charts for different cluster envs
+  - mock:
+    - flask
+    - MongoDB
+  - notable achievemets:
+    - Bug: Postgres SQL migration was not correct, needed to handleit manually in psql, and notified BP
+    - Bug: HA instance sync between PostgreSQL and Elastisearch was not finished after POST reply, next GET returned 404, provided bash sctipt to reproduce
+    - Hunting for race conditions in parallel camunda workflows. Deciding what should be parallel and what serail
+    - Learned about coalescing in RA notifications
+    - learned about:
+      - eventually consistency vs strong consistency
+      - reordering of notifications
+      - version numbers/timestamps
+      - idempotency
+
+Testing skills:
+  - pytest, django pytest, mock, unittest, screenpy, behave
+  - junit, jacoco, surefire, mockito
+  - Robbot framework
+  - Cypress
+
+CICD skills:
+  - Git
+  - Gerrit admin and integration with jenkins
+  - Jenkins admin and groovy jobs
+  - Gitlab admin
+  - Jfrog Artifactory
+
+Soft skills:
+  - Can understand technical level of team members
+  - Can make recommendation on who should work on what for product owners
+  - Can conduct technical interviews if needed
+  - Do not have experience in salary negotiations
+  - examples:
+    - handling MOTA in Ericsson
+    - handling Etin in DT
