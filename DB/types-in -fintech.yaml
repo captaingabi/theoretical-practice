@@ -1,0 +1,80 @@
+
+Fintech System (Payments / Banking App):
+
+🧱 Core Ledger & Transactions → PostgreSQL: This is the heart of the system.
+Stores:
+ - User accounts
+ - Balances
+ - Transactions (credits/debits)
+Why relational:
+ - You need ACID guarantees (no lost money, ever)
+ - Strong constraints (no negative balances unless allowed)
+ - Precise joins (user ↔ accounts ↔ transactions)
+👉 If something breaks here, its a legal problem—not just a bug.
+
+⚡ Real-Time Layer (Speed) → Redis: Used as a performance booster.
+Stores:
+ - Session data (logged-in users)
+ - Cached balances (read-heavy endpoints)
+ - Rate limiting (e.g., login attempts, API calls)
+ - Real-time fraud signals
+Why:
+ - Millisecond → microsecond latency
+ - Reduces load on PostgreSQL
+👉 Important: Redis is not the source of truth for money.
+
+📦 Flexible Data / Events → MongoDB: Used where structure evolves quickly.
+Stores:
+ - KYC documents (IDs, verification metadata)
+ - User activity/events (clicks, flows)
+ - Feature flags or experimental configs
+Why:
+ - Schema changes frequently
+ - Nested / document-style data fits naturally
+👉 Think “everything that doesn’t belong in the strict ledger.”
+
+🔍 Monitoring, Fraud & Search → Elasticsearch & Splunk: This is your observability + intelligence layer.
+Stores:
+ - Logs (API calls, failures)
+ - Transaction streams (for anomaly detection)
+ - Audit trails
+ - Searchable transaction history
+Why:
+ - Fast filtering across massive logs
+ - Full-text search (“find all failed payments from X”)
+ - Aggregations for fraud detection
+Example:
+ - Detect “100 transactions in 10 seconds from one IP”
+ - Investigate suspicious activity instantly
+
+🔄 How Data Flows (Simplified):
+ - User makes a payment
+ - Backend writes transaction → PostgreSQL (source of truth)
+Event is emitted:
+ - Cached in Redis (for fast balance display)
+ - Sent to Elasticsearch/Splunk (for logs + fraud checks)
+ - Optionally stored in MongoDB (event history, metadata)
+
+⚠️ Key Design Principles (Fintech-specific):
+1. Never trust caches for money:
+ - Redis can accelerate reads
+ - But only PostgreSQL decides balances
+2. Double-entry accounting (usually in PostgreSQL):
+ - Every transaction = debit + credit
+ - Ensures system-wide consistency
+3. Event-driven architecture:
+ - Transactions trigger downstream systems:
+   - Fraud detection
+   - Notifications
+   - Analytics
+4. Auditability is critical:
+  - Elasticsearch / Splunk let you answer:
+    - “What happened?”
+    - “When?”
+    - “Who triggered it?”
+
+🧠 Intuition Summary:
+ - PostgreSQL → truth (money)
+ - Redis → speed
+ - MongoDB → flexibility
+ - Elasticsearch / Splunk → visibility + intelligence

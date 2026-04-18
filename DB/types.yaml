@@ -1,0 +1,5 @@
+Type          |	Schema    | Speed	        | Flexibility	| Typical Use Case
+Relational    |	Fixed	    | Medium        |	Low	        | Transactions, core data ACID
+Document      | Flexible  |	Medium-High   |	High	      | Rapid dev, evolving data
+In-Memory	    | Simple	  | Very High	    | Medium	    | Caching, real-time
+Search Engine |	Indexed	  | High (search) |	Medium	    | Logs, search, analytics
