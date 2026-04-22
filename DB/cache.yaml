@@ -1,0 +1,13 @@
+✅ Why we often use both locks and version numbers:
+Mechanism	What it protects	Limitations / Notes:
+Locks (NX + PX)	- Prevents race conditions:
+- Prevents cache stampede / duplicate DB reads	- Can fail if the locker service crashes or pauses
+- TTL expiry might let another process acquire lock → possible overlapping execution i fit was a pause
+- Only a coordination mechanism, not absolute correctness
+Version number / timestamp	- Prevents stale data from overwriting newer data:
+- Guarantees correctness even if multiple writers update concurrently
+- Lock can fail:
+  - A (the lcoker) pauses/frozen
+  - lock TTL expires
+  - B writes newer info
+  - A continues, writes stale info
